@@ -10,16 +10,26 @@ class ProductsController < ApplicationController
 
   def description
     product = Product.find(params[:id])
-    render plain: product.description
+    render json: product.description
   end
 
   def new
     @product = Product.new
   end
 
+  def show
+    @product = Product.find_by(id: params[:id])
+  end
+
   def create
     Product.create(product_params)
     redirect_to products_path
+  end
+
+
+  def data
+    product = Product.find_by(id: params[:id])
+    render json: ProductSerializer.serialize(product)
   end
 
   private
